@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.alura.leilao.dao.UsuarioDao;
@@ -19,30 +21,42 @@ import util.JPAUtil;
 class UsuariodDaoTest {
 
 	private UsuarioDao dao;
+	private EntityManager em;
 
-	@Test
-	void testeDeveriaEncontrarUsuarioCadastrado() {
-		EntityManager em = JPAUtil.getEntityManager();
+	@BeforeEach
+	public void beforeEach() {
+		this.em = JPAUtil.getEntityManager();
+
 		// usando injeção de dependência pelo construtor para viabilizar os testes
 		this.dao = new UsuarioDao(em);
 
-		Usuario usuario = new Usuario("fulano", "fulano@email.com", "12345678");
 		// inicia transacao
 		em.getTransaction().begin();
-		em.persist(usuario);
-		em.getTransaction().commit();
+	}
+
+	@AfterEach
+	public void afterEach() {
+		// desfaz tudo para no próximo teste a base estar 'limpa'
+		em.getTransaction().rollback();
+	}
+
+	@Test
+	void testeDeveriaEncontrarUsuarioCadastrado() {
+		final Usuario usuario = this.criarUsuario();
 
 		Usuario usuarioEncontrado = this.dao.buscarPorUsername(usuario.getNome());
 		Assert.assertNotNull(usuarioEncontrado);
 
 	}
 
+	private Usuario criarUsuario() {
+		Usuario usuario = new Usuario("fulano", "fulano@email.com", "12345678");
+		em.persist(usuario);
+		return usuario;
+	}
+
 	@Test
 	void testeNaoDeveriaEncontrarUsuarioNaoCadastrado() {
-		EntityManager em = JPAUtil.getEntityManager();
-		// usando injeção de dependência pelo construtor para viabilizar os testes
-		this.dao = new UsuarioDao(em);
-
 		Assert.assertThrows(NoResultException.class, () -> this.dao.buscarPorUsername("beltrano"));
 
 	}
