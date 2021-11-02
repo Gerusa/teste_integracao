@@ -41,7 +41,7 @@ class UsuariodDaoTest {
 	}
 
 	@Test
-	void testeDeveriaEncontrarUsuarioCadastrado() {
+	void deveriaEncontrarUsuarioCadastrado() {
 		final Usuario usuario = this.criarUsuario();
 
 		Usuario usuarioEncontrado = this.dao.buscarPorUsername(usuario.getNome());
@@ -56,8 +56,18 @@ class UsuariodDaoTest {
 	}
 
 	@Test
-	void testeNaoDeveriaEncontrarUsuarioNaoCadastrado() {
+	void naoDeveriaEncontrarUsuarioNaoCadastrado() {
 		Assert.assertThrows(NoResultException.class, () -> this.dao.buscarPorUsername("beltrano"));
+
+	}
+
+	@Test
+	void deveriaRemoverUsuario() {
+		final Usuario usuario = this.criarUsuario();
+
+		this.dao.deletar(usuario);
+
+		Assert.assertThrows(NoResultException.class, () -> this.dao.buscarPorUsername(usuario.getNome()));
 
 	}
 
