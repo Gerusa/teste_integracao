@@ -18,7 +18,7 @@ import util.JPAUtil;
  * estamos simulando uma aplicação 'tradicional'.
  *
  */
-class UsuariodDaoTest {
+class UsuarioDaoTest {
 
 	private UsuarioDao dao;
 	private EntityManager em;
