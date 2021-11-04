@@ -1,4 +1,4 @@
-package util;
+package br.com.alura.leilao.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

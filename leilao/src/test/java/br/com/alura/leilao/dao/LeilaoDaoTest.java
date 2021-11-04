@@ -1,4 +1,4 @@
-package leilao;
+package br.com.alura.leilao.dao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,10 +10,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.com.alura.leilao.dao.LeilaoDao;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
-import util.JPAUtil;
+import br.com.alura.leilao.util.JPAUtil;
+import br.com.alura.leilao.util.builder.LeilaoBuilder;
+import br.com.alura.leilao.util.builder.UsuarioBuilder;
 
 /**
  * O springBoot tem um módulo para testes automatizados. Porém, os casos de
@@ -45,9 +46,21 @@ class LeilaoDaoTest {
 
 	@Test
 	void deveriaCadastrarLeilao() {
-		final Usuario usuario = this.criarUsuario();
 
-		Leilao leilao = new Leilao("Mochila", new BigDecimal("70"), LocalDate.now(), usuario);
+		Usuario usuario = new UsuarioBuilder()
+				.comNome("Fulano")
+				.comEmail("fulano@email.com")
+				.comSenha("12345678")
+		.criar();
+		
+		em.persist(usuario);
+		
+		Leilao leilao = new LeilaoBuilder()
+				.comNome("Mochila")
+				.comValorInicial("500")
+				.comData(LocalDate.now())
+				.comUsuario(usuario)
+				.criar();
 
 		leilao = this.dao.salvar(leilao);
 

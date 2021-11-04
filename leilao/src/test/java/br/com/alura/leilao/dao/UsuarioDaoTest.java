@@ -1,4 +1,4 @@
-package leilao;
+package br.com.alura.leilao.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -8,9 +8,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.com.alura.leilao.dao.UsuarioDao;
 import br.com.alura.leilao.model.Usuario;
-import util.JPAUtil;
+import br.com.alura.leilao.util.JPAUtil;
+import br.com.alura.leilao.util.builder.UsuarioBuilder;
 
 /**
  * O springBoot tem um módulo para testes automatizados. Porém, os casos de
@@ -50,8 +50,11 @@ class UsuarioDaoTest {
 	}
 
 	private Usuario criarUsuario() {
-		Usuario usuario = new Usuario("fulano", "fulano@email.com", "12345678");
+		Usuario usuario = new UsuarioBuilder().comNome("Fulano").comEmail("fulano@email.com").comSenha("12345678")
+				.criar();
+
 		em.persist(usuario);
+
 		return usuario;
 	}
 
