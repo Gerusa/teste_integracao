@@ -72,6 +72,14 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
+		
+<!-- 		selenium para testes automatizados -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+<!-- 			especifico para chrome -->
+			<artifactId>selenium-chrome-driver</artifactId> 
+<!-- 			<version>3.141.59</version> omitindo a versão, pois o próprio springboot sabe qual baixar -->
+		</dependency>
 	</dependencies>
 
 	<build>
