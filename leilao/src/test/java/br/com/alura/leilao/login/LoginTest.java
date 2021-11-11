@@ -2,100 +2,66 @@ package br.com.alura.leilao.login;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
  * Teste Automatizado da funcionalidade de Login.
  */
 public class LoginTest {
 
-	private WebDriver browser;
-
-	private static final String USUARIO_FULANO = "fulano";
-	private static final String SENHA_USUARIO = "pass";
-	private static final String TELA_LOGIN = "http://localhost:8080/leiloes/login";
-	private static final String TELA_LOGIN_ERRO = "http://localhost:8080/login?error";
-
-	// Roda antes de todos os testes, uma única vez
-	@BeforeAll
-	public static void beforeAll() {
-		// informa para o selenium onde está o driver do chrome
-		System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
-	}
+	// utilizando o padrão Page Object. Dessa forma, há uma separação entre o JUnit
+	// e o Selenium.
+	private LoginPage paginaDeLogin;
 
 	@BeforeEach
 	public void beforeEach() {
-		// abre o navegador
-		this.browser = new ChromeDriver();
-
-		// acessa a funcionalidade de login
-		browser.navigate().to(TELA_LOGIN);
-
+		this.paginaDeLogin = new LoginPage();
 	}
 
 	@AfterEach
 	public void afterEach() {
-		// fecha o navegador
-		browser.quit();
-
+		this.paginaDeLogin.fecharBrowser();
 	}
 
 	@Test
 	public void deveriaEfetuarLoginComDadosValidos() {
+		this.paginaDeLogin.preencherFormularioLogin("fulano", "pass");
 
-		// preenche o usuário
-		browser.findElement(By.id("username")).sendKeys(USUARIO_FULANO);
-
-		// preenche a senha
-		browser.findElement(By.id("password")).sendKeys(SENHA_USUARIO);
-
-		// envia os dados
-		browser.findElement(By.id("login-form")).submit();
+		this.paginaDeLogin.efetuarLogin();
 
 		// confere se não está mais na tela de login
-		Assert.assertFalse(browser.getCurrentUrl().equals(TELA_LOGIN));
+		Assert.assertFalse(this.paginaDeLogin.isPaginaDeLogin());
 
 		// confere o nome do usuário logado que aparece na barra superior da tela após
 		// login
-		Assert.assertEquals(USUARIO_FULANO, browser.findElement(By.id("usuario-logado")).getText());
+		Assert.assertEquals("fulano", this.paginaDeLogin.getNomeUsuarioLogado());
 
 	}
 
 	@Test
 	public void naoDeveriaEfetuarLoginComDadosInvalidos() {
+		this.paginaDeLogin.preencherFormularioLogin("invalido", "pass");
 
-		// preenche o usuário
-		browser.findElement(By.id("username")).sendKeys("invalido");
+		this.paginaDeLogin.efetuarLogin();
 
-		// preenche a senha
-		browser.findElement(By.id("password")).sendKeys(SENHA_USUARIO);
-
-		// envia os dados
-		browser.findElement(By.id("login-form")).submit();
-
-		// confere se está na tela de login com erro
-		Assert.assertTrue(browser.getCurrentUrl().equals(TELA_LOGIN_ERRO));
+		Assert.assertTrue(this.paginaDeLogin.isPaginaDeLoginErro());
 
 		// confere se a página está apresentando a validação
-		Assert.assertTrue(browser.getPageSource().contains("Usuário e senha inválidos."));
+		Assert.assertTrue(this.paginaDeLogin.isUsuarioInvalido());
 
 	}
 
 	@Test
 	public void naoDeveriaAcessarPaginaRestritaSemEstarLogado() {
 		// tenta acessar um leilão, sem realizar login
-		browser.navigate().to("http://localhost:8080/leiloes/2");
+		this.paginaDeLogin.acessarLeilao();
 
 		// deve estar na tela de login
-		Assert.assertTrue(browser.getCurrentUrl().equals("http://localhost:8080/login"));
+		Assert.assertTrue(this.paginaDeLogin.isPaginaSolicitacaoDeLogin());
 
 		// a página não pode conter Dados do Leilão
-		Assert.assertFalse(browser.getPageSource().contains("Dados do Leilão"));
+		Assert.assertFalse(this.paginaDeLogin.isPaginaDeLeilao());
 	}
 
 }
