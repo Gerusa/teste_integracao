@@ -2,6 +2,7 @@ package br.com.alura.leilao.login;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -21,17 +22,14 @@ public class LoginTest {
 	private static final String TELA_LOGIN_ERRO = "http://localhost:8080/login?error";
 
 	// Roda antes de todos os testes, uma única vez
-//	@BeforeAll
-//	public void beforeAll() {
-//		// informa para o selenium onde está o driver do chrome
-//		System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
-//	}
+	@BeforeAll
+	public static void beforeAll() {
+		// informa para o selenium onde está o driver do chrome
+		System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
+	}
 
 	@BeforeEach
 	public void beforeEach() {
-		// informa para o selenium onde está o driver do chrome
-		System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
-				
 		// abre o navegador
 		this.browser = new ChromeDriver();
 
@@ -87,16 +85,16 @@ public class LoginTest {
 		Assert.assertTrue(browser.getPageSource().contains("Usuário e senha inválidos."));
 
 	}
-	
+
 	@Test
 	public void naoDeveriaAcessarPaginaRestritaSemEstarLogado() {
-		//tenta acessar um leilão, sem realizar login
+		// tenta acessar um leilão, sem realizar login
 		browser.navigate().to("http://localhost:8080/leiloes/2");
-		
-		//deve estar na tela de login
+
+		// deve estar na tela de login
 		Assert.assertTrue(browser.getCurrentUrl().equals("http://localhost:8080/login"));
-		
-		//a página não pode conter Dados do Leilão
+
+		// a página não pode conter Dados do Leilão
 		Assert.assertFalse(browser.getPageSource().contains("Dados do Leilão"));
 	}
 
