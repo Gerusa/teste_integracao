@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import br.com.alura.leilao.leiloes.LeiloesPage;
+
 /**
  * Utilização do padrão Page Object. Ao utilizar este padrão favorecemos a
  * separação de responsabilidades entre os códigos de testes e de utilização da
@@ -43,10 +45,11 @@ public class LoginPage {
 
 	}
 
-	public void efetuarLogin() {
+	public LeiloesPage efetuarLogin() {
 		// envia os dados
 		browser.findElement(By.id("login-form")).submit();
-
+		
+		return new LeiloesPage(this.browser);
 	}
 
 	public boolean isPaginaDeLogin() {
