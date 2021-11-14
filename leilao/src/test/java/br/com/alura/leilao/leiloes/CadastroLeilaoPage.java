@@ -11,13 +11,15 @@ import org.openqa.selenium.WebDriver;
  *
  */
 public class CadastroLeilaoPage {
-	
+
+	private static final String URL_LISTA_LEILAO = "http://localhost:8080/leiloes";
+
 	private WebDriver browser;
 
 	public CadastroLeilaoPage(WebDriver browser) {
 		this.browser = browser;
 	}
-	
+
 	public void fecharBrowser() {
 		this.browser.quit();
 	}
@@ -26,10 +28,26 @@ public class CadastroLeilaoPage {
 		browser.findElement(By.id("nome")).sendKeys(nome);
 		browser.findElement(By.id("valorInicial")).sendKeys(valorInicial);
 		browser.findElement(By.id("dataAbertura")).sendKeys(dataAbertura);
-		
+
 		browser.findElement(By.id("button-submit")).submit();
-		
+
 		return new LeiloesPage(browser);
+	}
+
+	/**
+	 * Verifica se a página atual é a página de listagem de leilões.
+	 * 
+	 * @return
+	 */
+	public boolean isPaginaAtualIgualDeListagem() {
+		return this.browser.getCurrentUrl().equals(URL_LISTA_LEILAO);
+	}
+
+	public boolean isMsgsDeValidacaoVisiveis() {
+		return this.browser.getPageSource().contains("minimo 3 caracteres")
+				&& this.browser.getPageSource().contains("não deve estar em branco")
+				&& this.browser.getPageSource().contains("deve ser um valor maior de 0.1")
+				&& this.browser.getPageSource().contains("deve ser uma data no formato dd/MM/yyyy");
 	}
 
 }

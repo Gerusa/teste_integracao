@@ -20,10 +20,12 @@ public class LeiloesTest {
 	private LeiloesPage paginaDeLeiloes;
 
 	private LoginPage paginaDeLogin;
+	private CadastroLeilaoPage paginaDeCadastro;
 
 	@BeforeEach
 	public void beforeEach() {
 		this.paginaDeLeiloes = this.efetuarLogin();
+		this.paginaDeCadastro = this.paginaDeLeiloes.carregarForumulario();
 	}
 
 	private LeiloesPage efetuarLogin() {
@@ -39,16 +41,22 @@ public class LeiloesTest {
 
 	@Test
 	public void deveriaCadastrarLeilao() {
-		this.paginaDeLeiloes.carregarForumulario();
-		CadastroLeilaoPage paginaDeCadastro = this.paginaDeLeiloes.carregarForumulario();
-
 		final String hoje = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		final String nome = "Leilao do dia " + hoje;
 		final String valor = "500.00";
 
-		this.paginaDeLeiloes = paginaDeCadastro.cadastrarLeilao(nome, valor, hoje);
+		this.paginaDeLeiloes = this.paginaDeCadastro.cadastrarLeilao(nome, valor, hoje);
 		
 		Assert.assertTrue(this.paginaDeLeiloes.isLeilaoCadastrado(nome, valor, hoje));
+	}
+	
+	@Test
+	public void deveriaValidarCadastroDeLeilao() {
+		this.paginaDeLeiloes = this.paginaDeCadastro.cadastrarLeilao("", "", "");
+		
+		Assert.assertTrue(this.paginaDeCadastro.isPaginaAtualIgualDeListagem());
+		Assert.assertTrue(this.paginaDeCadastro.isMsgsDeValidacaoVisiveis());
+		
 	}
 
 }
