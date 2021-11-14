@@ -3,6 +3,8 @@ package br.com.alura.leilao.leiloes;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import br.com.alura.leilao.PageObject;
+
 /**
  * Utilização do padrão Page Object. Ao utilizar este padrão favorecemos a
  * separação de responsabilidades entre os códigos de testes e de utilização da
@@ -10,18 +12,12 @@ import org.openqa.selenium.WebDriver;
  * JUnit, e na classe de teste, não tem nada referente à api do Selenium.
  *
  */
-public class CadastroLeilaoPage {
+public class CadastroLeilaoPage extends PageObject {
 
 	private static final String URL_LISTA_LEILAO = "http://localhost:8080/leiloes";
 
-	private WebDriver browser;
-
 	public CadastroLeilaoPage(WebDriver browser) {
-		this.browser = browser;
-	}
-
-	public void fecharBrowser() {
-		this.browser.quit();
+		super(browser);
 	}
 
 	public LeiloesPage cadastrarLeilao(String nome, String valorInicial, String dataAbertura) {

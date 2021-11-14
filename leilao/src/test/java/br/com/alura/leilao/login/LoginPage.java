@@ -1,9 +1,8 @@
 package br.com.alura.leilao.login;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
+import br.com.alura.leilao.PageObject;
 import br.com.alura.leilao.leiloes.LeiloesPage;
 
 /**
@@ -13,27 +12,15 @@ import br.com.alura.leilao.leiloes.LeiloesPage;
  * JUnit, e na classe de teste, não tem nada referente à api do Selenium.
  *
  */
-public class LoginPage {
-
-	private WebDriver browser;
+public class LoginPage extends PageObject {
 
 	private static final String TELA_LOGIN = "http://localhost:8080/leiloes/login";
 	private static final String TELA_LOGIN_ERRO = "http://localhost:8080/login?error";
 
 	public LoginPage() {
-		// informa para o selenium onde está o driver do chrome
-		System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
-
-		this.browser = new ChromeDriver();
-
+		super(null);
 		// acessa a funcionalidade de login
 		browser.navigate().to(TELA_LOGIN);
-	}
-
-	public void fecharBrowser() {
-		// fecha o navegador
-		browser.quit();
-
 	}
 
 	public void preencherFormularioLogin(String userName, String password) {
@@ -48,7 +35,7 @@ public class LoginPage {
 	public LeiloesPage efetuarLogin() {
 		// envia os dados
 		browser.findElement(By.id("login-form")).submit();
-		
+
 		return new LeiloesPage(this.browser);
 	}
 
