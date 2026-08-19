@@ -9,3 +9,4 @@ Acesse http://localhost:8080/leiloes >> Em login, acesse com fulano | pass
 Desenvolvimento orientado a testes - baseado em ciclo:
 - Red: 1° escreve-se um teste que falha para uma funcionalidade ainda inexistente.
 - Green: 2° escreve-se o código mínimo necessário para o teste passar.
+- Refactor: por fim, refatora-se o código para melhorar sua qualidade e ligibilidade, mantendo todos os testes passando.
