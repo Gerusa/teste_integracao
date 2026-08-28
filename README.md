@@ -34,3 +34,10 @@ O principal problema disso é não conseguir pensar em todos os cenários de tes
 # Dicas
 - Nomeie os testes de forma clara e descritiva: um bom nome de teste comunica a intenção do comportamento validado.
 - Faça um teste por comportamento, ex: num mesmo teste, não valide a soma e a subtração.
+
+# Spy
+É um tipo especial de mock, que permite executar o comportamento real do objeto (espia o objeto). São úteis quando:
+- Você quer manter o comportamento real da classe, mas controlar partes específicas
+- Precisa monitorar interações com objetos que não foram injetados como mocks
+- Está testando objetos de bibliotecas ou legados sem possibilidade de injeção de dependência
+![img.png](mock_vs_spy.png)
