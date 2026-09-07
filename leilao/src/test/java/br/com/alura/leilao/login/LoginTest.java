@@ -1,7 +1,8 @@
 package br.com.alura.leilao.login;
 
-import org.junit.Assert;
+
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,11 +32,11 @@ public class LoginTest {
 		this.paginaDeLogin.efetuarLogin();
 
 		// confere se não está mais na tela de login
-		Assert.assertFalse(this.paginaDeLogin.isPaginaDeLogin());
+		Assertions.assertFalse(this.paginaDeLogin.isPaginaDeLogin());
 
 		// confere o nome do usuário logado que aparece na barra superior da tela após
 		// login
-		Assert.assertEquals("fulano", this.paginaDeLogin.getNomeUsuarioLogado());
+		Assertions.assertEquals("fulano", this.paginaDeLogin.getNomeUsuarioLogado());
 
 	}
 
@@ -45,10 +46,10 @@ public class LoginTest {
 
 		this.paginaDeLogin.efetuarLogin();
 
-		Assert.assertTrue(this.paginaDeLogin.isPaginaDeLoginErro());
+		Assertions.assertTrue(this.paginaDeLogin.isPaginaDeLoginErro());
 
 		// confere se a página está apresentando a validação
-		Assert.assertTrue(this.paginaDeLogin.isUsuarioInvalido());
+		Assertions.assertTrue(this.paginaDeLogin.isUsuarioInvalido());
 
 	}
 
@@ -58,10 +59,10 @@ public class LoginTest {
 		this.paginaDeLogin.acessarLeilao();
 
 		// deve estar na tela de login
-		Assert.assertTrue(this.paginaDeLogin.isPaginaSolicitacaoDeLogin());
+		Assertions.assertTrue(this.paginaDeLogin.isPaginaSolicitacaoDeLogin());
 
 		// a página não pode conter Dados do Leilão
-		Assert.assertFalse(this.paginaDeLogin.isPaginaDeLeilao());
+		Assertions.assertFalse(this.paginaDeLogin.isPaginaDeLeilao());
 	}
 
 }

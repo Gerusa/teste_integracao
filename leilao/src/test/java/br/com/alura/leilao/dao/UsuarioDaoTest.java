@@ -1,16 +1,15 @@
 package br.com.alura.leilao.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-
-import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import br.com.alura.leilao.model.Usuario;
 import br.com.alura.leilao.util.JPAUtil;
 import br.com.alura.leilao.util.builder.UsuarioBuilder;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  * O springBoot tem um módulo para testes automatizados. Porém, os casos de
@@ -45,7 +44,7 @@ class UsuarioDaoTest {
 		final Usuario usuario = this.criarUsuario();
 
 		Usuario usuarioEncontrado = this.dao.buscarPorUsername(usuario.getNome());
-		Assert.assertNotNull(usuarioEncontrado);
+		Assertions.assertNotNull(usuarioEncontrado);
 
 	}
 
@@ -60,7 +59,7 @@ class UsuarioDaoTest {
 
 	@Test
 	void naoDeveriaEncontrarUsuarioNaoCadastrado() {
-		Assert.assertThrows(NoResultException.class, () -> this.dao.buscarPorUsername("beltrano"));
+		Assertions.assertThrows(NoResultException.class, () -> this.dao.buscarPorUsername("beltrano"));
 
 	}
 
@@ -70,7 +69,7 @@ class UsuarioDaoTest {
 
 		this.dao.deletar(usuario);
 
-		Assert.assertThrows(NoResultException.class, () -> this.dao.buscarPorUsername(usuario.getNome()));
+		Assertions.assertThrows(NoResultException.class, () -> this.dao.buscarPorUsername(usuario.getNome()));
 
 	}
 

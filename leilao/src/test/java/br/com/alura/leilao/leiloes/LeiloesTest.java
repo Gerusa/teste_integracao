@@ -1,14 +1,13 @@
 package br.com.alura.leilao.leiloes;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import org.junit.Assert;
+import br.com.alura.leilao.login.LoginPage;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.com.alura.leilao.login.LoginPage;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Teste Automatizado da funcionalidade de cadastro de leilões.
@@ -46,16 +45,16 @@ public class LeiloesTest {
 		final String valor = "500.00";
 
 		this.paginaDeLeiloes = this.paginaDeCadastro.cadastrarLeilao(nome, valor, hoje);
-		
-		Assert.assertTrue(this.paginaDeLeiloes.isLeilaoCadastrado(nome, valor, hoje));
+
+		Assertions.assertTrue(this.paginaDeLeiloes.isLeilaoCadastrado(nome, valor, hoje));
 	}
 	
 	@Test
 	public void deveriaValidarCadastroDeLeilao() {
 		this.paginaDeLeiloes = this.paginaDeCadastro.cadastrarLeilao("", "", "");
-		
-		Assert.assertTrue(this.paginaDeCadastro.isPaginaAtualIgualDeListagem());
-		Assert.assertTrue(this.paginaDeCadastro.isMsgsDeValidacaoVisiveis());
+
+		Assertions.assertTrue(this.paginaDeCadastro.isPaginaAtualIgualDeListagem());
+		Assertions.assertTrue(this.paginaDeCadastro.isMsgsDeValidacaoVisiveis());
 		
 	}
 
