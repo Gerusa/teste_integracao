@@ -27,6 +27,11 @@
 
 		<!-- O Spring Boot 2.7 já traz uma versão compatível do Mockito, mas se quiser forçar a 5.x: -->
 		<mockito.version>5.14.2</mockito.version>
+
+		<!-- AJUSTE: Byte Buddy compatível com mockito-core 5.14.2 (evita NoSuchFieldError: JAVA_V21,
+             causado pela versão antiga 1.12.23 que vem transitivamente do hibernate-core)
+             Usado qdo anotamos uma classe com arroba Mock -->
+		<byte-buddy.version>1.15.10</byte-buddy.version>
 	</properties>
 
 	<dependencies>
